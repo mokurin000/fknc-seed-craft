@@ -2,17 +2,17 @@ use std::collections::HashMap;
 
 use crate::model::{Seed, Solution};
 
-fn reward_level(total_price: u64) -> (i32, i32) {
+fn reward_level(total_price: u64) -> (i32, i32, u32) {
     if total_price > 1_200_000 {
-        (25, 4)
+        (25, 4, 1000)
     } else if total_price > 500_000 {
-        (5, 3)
+        (5, 3, 2000)
     } else if total_price > 25_000 {
-        (1, 2)
+        (1, 2, 5000)
     } else if total_price > 0 {
-        (0, 1)
+        (0, 1, 10000)
     } else {
-        (0, 0)
+        (0, 0, 20000)
     }
 }
 
@@ -64,7 +64,7 @@ pub fn solve(seeds: &[Seed]) -> Option<Solution> {
         }
 
         let total_price = (s as u64) * SCALE;
-        let (probability, energy) = reward_level(total_price);
+        let (probability, energy, _) = reward_level(total_price);
 
         let score = (probability, energy, -(total_price as i64));
 
@@ -99,7 +99,7 @@ pub fn solve(seeds: &[Seed]) -> Option<Solution> {
     chosen_items.reverse();
 
     let total_price = chosen_items.iter().map(|s| s.price).sum();
-    let (probability, energy) = reward_level(total_price);
+    let (probability, energy, cost) = reward_level(total_price);
 
     let mut counts: HashMap<String, usize> = HashMap::new();
     for seed in &chosen_items {
@@ -108,9 +108,11 @@ pub fn solve(seeds: &[Seed]) -> Option<Solution> {
 
     Some(Solution {
         price: total_price,
-        probability,
-        energy,
         counts,
         chosen: chosen_items,
+
+        probability,
+        energy,
+        cost,
     })
 }

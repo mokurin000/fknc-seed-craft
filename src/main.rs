@@ -80,6 +80,7 @@ fn main() {
         println!("=== 最优方案 ===");
         println!();
         println!("总价: {}", format_money(result.price));
+        println!("合成花费: {}", format_money(result.cost as _));
         println!("出金概率: +{}%", result.probability);
         println!("能量增长: +{}", result.energy);
         println!();

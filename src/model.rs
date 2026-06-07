@@ -20,8 +20,10 @@ impl Seed {
 #[derive(Debug)]
 pub struct Solution {
     pub price: u64,
-    pub probability: i32,
-    pub energy: i32,
     pub counts: HashMap<String, usize>,
     pub chosen: Vec<Seed>,
+
+    pub probability: i32,
+    pub energy: i32,
+    pub cost: u32,
 }
