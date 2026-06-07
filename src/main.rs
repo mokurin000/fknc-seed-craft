@@ -26,20 +26,25 @@ fn main() {
     let mut seed_objects = Vec::new();
 
     for (name, price) in SEEDS {
-        let prompt = format!("{} 的最大使用数量", name);
+        loop {
+            let prompt = format!("{} 的最大使用数量", name);
 
-        let Ok(input) = Text::new(&prompt)
-            .with_default("5")
-            .with_help_message("直接回车使用 5，输入数字后回车")
-            .prompt()
-        else {
-            std::process::exit(0);
-        };
+            let Ok(input) = Text::new(&prompt)
+                .with_default("5")
+                .with_help_message("直接回车使用 5，输入数字后回车")
+                .prompt()
+            else {
+                std::process::exit(0);
+            };
 
-        let max_count: usize = input.trim().parse().unwrap_or(5);
-        let max_count = max_count.clamp(0, 5); // 限制最大20，避免过大
-
-        seed_objects.push(Seed::new(name, price, max_count));
+            let Ok(max_count) = input.trim().parse::<usize>() else {
+                eprintln!("请输入阿拉伯数字");
+                continue;
+            };
+            let max_count = max_count.clamp(0, 5); // 限制最大20，避免过大
+            seed_objects.push(Seed::new(name, price, max_count));
+            break;
+        }
     }
 
     seed_objects.extend(
