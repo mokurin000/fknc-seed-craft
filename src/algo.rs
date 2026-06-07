@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::model::{Seed, Solution};
 
-fn reward_level(total_price: i64) -> (i32, i32) {
+fn reward_level(total_price: u64) -> (i32, i32) {
     if total_price > 1_200_000 {
         (25, 4)
     } else if total_price > 500_000 {
@@ -27,10 +27,10 @@ fn expand_inventory(seeds: &[Seed]) -> Vec<Seed> {
 }
 
 pub fn solve(seeds: &[Seed]) -> Option<Solution> {
-    const SCALE: i64 = 100;
+    const SCALE: u64 = 100;
 
     let items = expand_inventory(seeds);
-    let prices: Vec<i64> = items.iter().map(|s| s.price / SCALE).collect();
+    let prices: Vec<u64> = items.iter().map(|s| s.price / SCALE).collect();
     let max_sum: usize = prices.iter().map(|&p| p as usize).sum();
 
     let mut dp = vec![vec![false; max_sum + 1]; 6];
@@ -63,18 +63,18 @@ pub fn solve(seeds: &[Seed]) -> Option<Solution> {
             continue;
         }
 
-        let total_price = (s as i64) * SCALE;
+        let total_price = (s as u64) * SCALE;
         let (probability, energy) = reward_level(total_price);
 
-        let score = (probability, energy, -total_price);
+        let score = (probability, energy, -(total_price as i64));
 
         match best {
             None => {
-                best = Some((probability, energy, -total_price, 5, s));
+                best = Some((probability, energy, -(total_price as i64), 5, s));
             }
             Some((p, e, neg_t, _, _)) => {
                 if score > (p, e, neg_t) {
-                    best = Some((probability, energy, -total_price, 5, s));
+                    best = Some((probability, energy, -(total_price as i64), 5, s));
                 }
             }
         }
