@@ -101,28 +101,29 @@ def solve(seeds):
 
     best = None
 
-    for k in range(1, 6):
-        for s in range(max_sum + 1):
-            if not dp[k][s]:
-                continue
+    k = 5
 
-            total_price = s * SCALE
+    for s in range(max_sum + 1):
+        if not dp[k][s]:
+            continue
 
-            probability, energy = reward_level(total_price)
+        total_price = s * SCALE
 
-            # 收益优先，总价越低越好
-            score = (
-                probability,
-                energy,
-                -total_price,
+        probability, energy = reward_level(total_price)
+
+        # 收益优先，总价越低越好
+        score = (
+            probability,
+            energy,
+            -total_price,
+        )
+
+        if best is None or score > best[0]:
+            best = (
+                score,
+                k,
+                s,
             )
-
-            if best is None or score > best[0]:
-                best = (
-                    score,
-                    k,
-                    s,
-                )
 
     if best is None:
         return None
