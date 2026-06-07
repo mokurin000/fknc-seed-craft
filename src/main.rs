@@ -2,9 +2,11 @@ use inquire::Text;
 use std::cmp::Reverse;
 
 use crate::algo::solve;
+use crate::data::{FREE_SEEDS, SEEDS};
 use crate::model::Seed;
 
 mod algo;
+mod data;
 mod model;
 
 fn format_money(x: u64) -> String {
@@ -20,31 +22,6 @@ fn format_money(x: u64) -> String {
 fn main() {
     println!("=== 设置每种种子的最大使用数量 ===");
     println!("（直接回车 = 使用默认值 5，数字大于5无意义）\n");
-
-    const FREE_SEEDS: [(&str, u64); 2] = [("土豆", 0), ("月光草", 0)];
-    const SEEDS: [(&str, u64); 19] = [
-        // 普通种子
-        ("草莓", 1_250_000),
-        ("猕猴桃", 600_000),
-        ("香蕉", 300_000),
-        ("苹果", 150_000),
-        ("玉米", 90_000),
-        ("西瓜", 60_000),
-        ("竹子", 30_000),
-        ("黄瓜", 9_000),
-        ("波斯菊", 2_000),
-        ("番茄", 100),
-        // 月球种子
-        ("液光藤", 3_100_000),
-        ("月核树", 2_000_000),
-        ("星叶菜", 500_000),
-        ("月莓", 300_000),
-        ("银灰苔", 120_000),
-        ("月环树", 60_000),
-        ("月番茄", 16_000),
-        ("月灯草", 8_000),
-        ("灰壤豆", 1_000),
-    ];
 
     let mut seed_objects = Vec::new();
 
