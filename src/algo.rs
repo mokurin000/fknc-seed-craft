@@ -4,15 +4,15 @@ use crate::model::{Seed, Solution};
 
 fn reward_level(total_price: u64) -> (i32, i32, u32) {
     if total_price > 1_200_000 {
-        (25, 4, 1000)
+        (25, 4, 20000)
     } else if total_price > 500_000 {
-        (5, 3, 2000)
+        (5, 3, 10000)
     } else if total_price > 25_000 {
         (1, 2, 5000)
     } else if total_price > 0 {
-        (0, 1, 10000)
+        (0, 1, 2000)
     } else {
-        (0, 0, 20000)
+        (0, 0, 1000)
     }
 }
 
